@@ -326,6 +326,7 @@
                 dayCell.addEventListener("click", function () {
                     selectedDay = dayCell;
                     document.getElementById("eventPopup").style.display = "block";
+                    clearEventPopup();
                 });
                 calendar.appendChild(dayCell);
             }
@@ -409,6 +410,10 @@
             }
 
             document.getElementById("eventPopup").style.display = "none";
+            clearEventPopup();
+        }
+
+        function clearEventPopup() {
             document.getElementById("eventText").value = "";
             document.getElementById("eventNotes").value = "";
             document.getElementById("eventImageUrl").value = "";
