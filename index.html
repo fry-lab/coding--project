@@ -1,0 +1,306 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Corl's World</title>
+    <link rel="stylesheet" href="styles.css">
+    <script defer src="script.js"></script>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            background-color: #FFD1DC;
+            margin: 0;
+            flex-direction: column;
+        }
+        .calendar-container {
+            background: white;
+            padding: 20px;
+            border-radius: 10px;
+            box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.1);
+            width: 90vw;
+            max-width: 800px;
+            text-align: center;
+        }
+        .calendar-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 10px;
+        }
+        .weekdays {
+            display: grid;
+            grid-template-columns: repeat(7, 1fr);
+            font-weight: bold;
+            margin-bottom: 5px;
+        }
+        .calendar {
+            display: grid;
+            grid-template-columns: repeat(7, 1fr);
+            gap: 5px;
+        }
+        .day, .empty {
+            padding: 10px;
+            background: #FFE4E1;
+            border-radius: 5px;
+            text-align: center;
+            cursor: pointer;
+            min-height: 60px;
+            position: relative;
+        }
+        .ellipsis-menu {
+            position: absolute;
+            top: 5px;
+            right: 5px;
+            cursor: pointer;
+        }
+        .event-popup {
+            display: none;
+            position: fixed;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            background: white;
+            padding: 20px;
+            border-radius: 10px;
+            box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.3);
+            z-index: 1000;
+            max-width: 400px;
+            min-height: 300px;
+            transition: all 0.3s ease;
+        }
+        .event-popup.minimized {
+            height: 60px;
+            width: 200px;
+            padding: 5px;
+            overflow: hidden;
+            justify-content: center;
+        }
+        .event-popup h3 {
+            margin: 0;
+            font-size: 1rem;
+        }
+        .event-image {
+            width: 40%;
+            cursor: pointer;
+        }
+        select, textarea, input {
+            width: 100%;
+            padding: 10px;
+            margin-bottom: 10px;
+            border-radius: 8px;
+            border: 1px solid #ccc;
+        }
+        .popup-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+        .minimize-btn {
+            cursor: pointer;
+            background: none;
+            border: none;
+            font-size: 18px;
+        }
+        button {
+            padding: 10px 15px;
+            border-radius: 5px;
+            border: none;
+            background-color: #FF6347;
+            color: white;
+            font-size: 14px;
+            cursor: pointer;
+            margin-top: 10px;
+        }
+        button:hover {
+            background-color: #FF4500;
+        }
+        .day img {
+            transition: transform 0.3s ease;
+        }
+        .day img:hover {
+            transform: scale(1.5);
+        }
+        .fullscreen-img {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            object-fit: contain;
+            background: rgba(0, 0, 0, 0.8);
+            z-index: 1001;
+            cursor: pointer;
+        }
+    </style>
+</head>
+<body>
+    <h1>Corl's World</h1>
+    <div class="calendar-container">
+        <div class="calendar-header">
+            <button id="prevMonth">&#9665;</button>
+            <h2 id="monthYear"></h2>
+            <button id="nextMonth">&#9655;</button>
+        </div>
+        <div class="weekdays">
+            <span>Sun</span><span>Mon</span><span>Tue</span><span>Wed</span><span>Thu</span><span>Fri</span><span>Sat</span>
+        </div>
+        <div class="calendar" id="calendar"></div>
+    </div>
+
+    <div class="event-popup" id="eventPopup">
+        <div class="popup-header">
+            <h3>Add Event</h3>
+            <button id="minimizePopup" class="minimize-btn">&#x2014;</button>
+        </div>
+        <label for="eventCategory">Event Category:</label>
+        <select id="eventCategory">
+            <option value="Content Ideas">Content Ideas</option>
+            <option value="Launch Date">Launch Date</option>
+            <option value="Meeting">Meeting</option>
+            <option value="Holiday">Holiday</option>
+            <option value="Other">Other</option>
+        </select>
+
+       
+
+      
+
+        <label for="eventText">Event Details:</label>
+        <input type="text" id="eventText" placeholder="Event details">
+        
+        <label for="eventNotes">Event Notes:</label>
+        <textarea id="eventNotes" placeholder="Add more details about the event"></textarea>
+
+        <label for="eventImage">Upload Image:</label>
+        <input type="file" id="eventImage">
+        
+        <label for="eventImageUrl">Paste Image URL:</label>
+        <input type="text" id="eventImageUrl" placeholder="Paste Image URL">
+        
+        <button id="saveEvent">Save</button>
+        <button id="closePopup">Close</button>
+    </div>
+
+    <script>
+        document.addEventListener("DOMContentLoaded", function () {
+            const today = new Date();
+            generateCalendar(today.getFullYear(), today.getMonth());
+
+            document.getElementById("prevMonth").addEventListener("click", function () {
+                changeMonth(-1);
+            });
+            document.getElementById("nextMonth").addEventListener("click", function () {
+                changeMonth(1);
+            });
+
+            document.getElementById("closePopup").addEventListener("click", function () {
+                document.getElementById("eventPopup").style.display = "none";
+            });
+
+            document.getElementById("saveEvent").addEventListener("click", function () {
+                saveEvent();
+            });
+
+            document.getElementById("minimizePopup").addEventListener("click", function () {
+                minimizePopup();
+            });
+        });
+
+        let currentYear, currentMonth, selectedDay;
+
+        function generateCalendar(year, month) {
+            currentYear = year;
+            currentMonth = month;
+            const calendar = document.getElementById("calendar");
+            const monthYear = document.getElementById("monthYear");
+            const firstDay = new Date(year, month, 1).getDay();
+            const daysInMonth = new Date(year, month + 1, 0).getDate();
+            
+            calendar.innerHTML = "";
+            monthYear.textContent = new Date(year, month).toLocaleDateString("en-US", { month: "long", year: "numeric" });
+            
+            for (let i = 0; i < firstDay; i++) {
+                const emptyCell = document.createElement("div");
+                emptyCell.classList.add("empty");
+                calendar.appendChild(emptyCell);
+            }
+            
+            for (let day = 1; day <= daysInMonth; day++) {
+                const dayCell = document.createElement("div");
+                dayCell.classList.add("day");
+                dayCell.textContent = day;
+                dayCell.addEventListener("click", function () {
+                    selectedDay = dayCell;
+                    document.getElementById("eventPopup").style.display = "block";
+                });
+                calendar.appendChild(dayCell);
+            }
+        }
+
+        function changeMonth(step) {
+            const newDate = new Date(currentYear, currentMonth + step, 1);
+            generateCalendar(newDate.getFullYear(), newDate.getMonth());
+        }
+
+        function saveEvent() {
+            if (!selectedDay) return;
+            const eventText = document.getElementById("eventText").value;
+            const eventCategory = document.getElementById("eventCategory").value;
+            const eventPriority = document.getElementById("eventPriority").value;
+            const eventNotes = document.getElementById("eventNotes").value;
+            const eventImageUrl = document.getElementById("eventImageUrl").value;
+            const eventImage = document.getElementById("eventImage").files[0];
+
+            if (eventText.trim() !== "") {
+                const eventDiv = document.createElement("div");
+                eventDiv.textContent = eventText;
+                eventDiv.style.fontSize = "12px";
+                eventDiv.style.backgroundColor = "#FF6347";
+                selectedDay.appendChild(eventDiv);
+            }
+
+            function addImage(src) {
+                const img = document.createElement("img");
+                img.src = src;
+                img.style.width = "40%";
+                img.addEventListener("click", function () {
+                    const fullscreenImg = document.createElement("img");
+                    fullscreenImg.src = src;
+                    fullscreenImg.classList.add("fullscreen-img");
+                    fullscreenImg.addEventListener("click", function () {
+                        document.body.removeChild(fullscreenImg);
+                    });
+                    document.body.appendChild(fullscreenImg);
+                });
+                selectedDay.appendChild(img);
+            }
+
+            if (eventImageUrl.trim() !== "") {
+                addImage(eventImageUrl);
+            } else if (eventImage) {
+                const reader = new FileReader();
+                reader.onload = function (e) {
+                    addImage(e.target.result);
+                };
+                reader.readAsDataURL(eventImage);
+            }
+
+            document.getElementById("eventPopup").style.display = "none";
+            document.getElementById("eventText").value = "";
+            document.getElementById("eventNotes").value = "";
+            document.getElementById("eventImageUrl").value = "";
+            document.getElementById("eventImage").value = "";
+        }
+
+        function minimizePopup() {
+            const popup = document.getElementById("eventPopup");
+            popup.classList.toggle("minimized");
+        }
+    </script>
+</body>
+</html>
