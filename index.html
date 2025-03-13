@@ -376,7 +376,9 @@
                 eventDiv.textContent = `${eventText} (${eventPriority})`;
                 eventDiv.style.fontSize = "12px";
                 eventDiv.style.backgroundColor = "#FF6347";
-                
+                eventDiv.style.padding = "5px"; // Adjust padding
+                eventDiv.style.marginTop = "5px"; // Adjust margin
+
                 const ellipsis = document.createElement("div");
                 ellipsis.classList.add("ellipsis-menu");
                 ellipsis.textContent = "...";
@@ -403,6 +405,8 @@
                 eventDiv.appendChild(menu);
                 
                 selectedDay.appendChild(eventDiv);
+                selectedDay.style.backgroundColor = "#FFB6C1"; // Change background color of the date box
+                selectedDay.style.border = "2px solid #FF6347"; // Add border to the date box
             }
 
             function addImage(src) {
