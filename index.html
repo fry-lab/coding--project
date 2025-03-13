@@ -382,6 +382,9 @@
                 const checkbox = document.createElement("input");
                 checkbox.type = "checkbox";
                 checkbox.style.marginRight = "5px";
+                checkbox.addEventListener("click", function (event) {
+                    event.stopPropagation(); // Prevent the popup from opening
+                });
                 eventDiv.prepend(checkbox); // Add checkbox to the beginning of the eventDiv
 
                 const ellipsis = document.createElement("div");
