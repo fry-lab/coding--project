@@ -229,7 +229,7 @@
             <button id="nextMonth">&#9655;</button>
         </div>
         <div class="weekdays">
-            <span>Sun</span><span>Mon</span><span>Tue</span><span>Wed</span><span>Thu</span><span>Fri</span><span>Sat</span>
+            <span>Sun</span><span>Mon</pan><span>Tue</span><span>Wed</span><span>Thu</span><span>Fri</span><span>Sat</span>
         </div>
         <div class="calendar" id="calendar"></div>
     </div>
@@ -260,6 +260,9 @@
         
         <label for="eventImageUrl">Paste Image URL:</label>
         <input type="text" id="eventImageUrl" placeholder="Paste Image URL">
+
+        <label for="eventVideoUrl">Paste Video URL:</label>
+        <input type="text" id="eventVideoUrl" placeholder="Paste Video URL">
 
         <label for="eventPriority">Event Priority:</label>
         <select id="eventPriority">
@@ -381,6 +384,7 @@
             const eventNotes = document.getElementById("eventNotes").value;
             const eventImageUrl = document.getElementById("eventImageUrl").value;
             const eventImage = document.getElementById("eventImage").files[0];
+            const eventVideoUrl = document.getElementById("eventVideoUrl").value;
 
             if (eventText.trim() !== "") {
                 const eventDiv = document.createElement("div");
@@ -423,6 +427,8 @@
                         selectedDay.removeChild(eventDiv);
                         const images = selectedDay.querySelectorAll("img");
                         images.forEach(img => selectedDay.removeChild(img));
+                        const videos = selectedDay.querySelectorAll("iframe");
+                        videos.forEach(video => selectedDay.removeChild(video));
                         if (selectedDay.querySelectorAll("div").length === 0) {
                             selectedDay.style.backgroundColor = "#FFE4E1"; // Reset background color
                             selectedDay.style.border = "none"; // Remove border
@@ -462,6 +468,17 @@
                 selectedDay.appendChild(img);
             }
 
+            function addVideo(src) {
+                const iframe = document.createElement("iframe");
+                iframe.src = src;
+                iframe.width = "100%";
+                iframe.height = "200px";
+                iframe.frameBorder = "0";
+                iframe.allow = "accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture";
+                iframe.allowFullscreen = true;
+                selectedDay.appendChild(iframe);
+            }
+
             if (eventImageUrl.trim() !== "") {
                 addImage(eventImageUrl);
             } else if (eventImage) {
@@ -470,6 +487,10 @@
                     addImage(e.target.result);
                 };
                 reader.readAsDataURL(eventImage);
+            }
+
+            if (eventVideoUrl.trim() !== "") {
+                addVideo(eventVideoUrl);
             }
 
             document.getElementById("eventPopup").style.display = "none";
@@ -481,6 +502,7 @@
             document.getElementById("eventNotes").value = "";
             document.getElementById("eventImageUrl").value = "";
             document.getElementById("eventImage").value = "";
+            document.getElementById("eventVideoUrl").value = "";
             document.getElementById("eventPriority").value = "Medium"; // Reset priority to default
         }
 
