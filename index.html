@@ -232,7 +232,7 @@
         <select id="eventCategory">
             <option value="Content Ideas">Content Ideas</option>
             <option value="Launch Date">Launch Date</option>
-            <option value="Meeting">Meeting</option>
+            <option value="Sewing">Meeting</option>
             <option value="Holiday">Holiday</option>
             <option value="Other">Other</option>
         </select>
@@ -277,6 +277,7 @@
 
             document.getElementById("closePopup").addEventListener("click", function () {
                 document.getElementById("eventPopup").style.display = "none";
+                clearEventPopup();
             });
 
             document.getElementById("saveEvent").addEventListener("click", function () {
