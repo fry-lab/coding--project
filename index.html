@@ -257,6 +257,9 @@
         
         <label for="eventImageUrl">Paste Image URL:</label>
         <input type="text" id="eventImageUrl" placeholder="Paste Image URL">
+
+        
+        </select>
         
         <button id="saveEvent">Save</button>
         <button id="closePopup">Close</button>
@@ -363,7 +366,7 @@
 
             if (eventText.trim() !== "") {
                 const eventDiv = document.createElement("div");
-                eventDiv.textContent = eventText;
+                eventDiv.textContent = `${eventText} (${eventPriority})`;
                 eventDiv.style.fontSize = "12px";
                 eventDiv.style.backgroundColor = "#FF6347";
                 
@@ -433,6 +436,7 @@
             document.getElementById("eventNotes").value = "";
             document.getElementById("eventImageUrl").value = "";
             document.getElementById("eventImage").value = "";
+            document.getElementById("eventPriority").value = "Medium"; // Reset priority to default
         }
 
         function minimizePopup() {
