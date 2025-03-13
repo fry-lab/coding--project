@@ -348,10 +348,12 @@
                 const dayCell = document.createElement("div");
                 dayCell.classList.add("day");
                 dayCell.textContent = day;
-                dayCell.addEventListener("click", function () {
-                    selectedDay = dayCell;
-                    document.getElementById("eventPopup").style.display = "block";
-                    clearEventPopup();
+                dayCell.addEventListener("click", function (event) {
+                    if (event.target.type !== "checkbox") {
+                        selectedDay = dayCell;
+                        document.getElementById("eventPopup").style.display = "block";
+                        clearEventPopup();
+                    }
                 });
                 calendar.appendChild(dayCell);
             }
