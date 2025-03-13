@@ -421,6 +421,10 @@
                     selectedDay.removeChild(eventDiv);
                     const images = selectedDay.querySelectorAll("img");
                     images.forEach(img => selectedDay.removeChild(img));
+                    if (selectedDay.querySelectorAll("div").length === 0) {
+                        selectedDay.style.backgroundColor = "#FFE4E1"; // Reset background color
+                        selectedDay.style.border = "none"; // Remove border
+                    }
                 });
                 menu.appendChild(editButton);
                 menu.appendChild(deleteButton);
