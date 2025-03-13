@@ -379,6 +379,11 @@
                 eventDiv.style.padding = "5px"; // Adjust padding
                 eventDiv.style.marginTop = "5px"; // Adjust margin
 
+                const checkbox = document.createElement("input");
+                checkbox.type = "checkbox";
+                checkbox.style.marginRight = "5px";
+                eventDiv.prepend(checkbox); // Add checkbox to the beginning of the eventDiv
+
                 const ellipsis = document.createElement("div");
                 ellipsis.classList.add("ellipsis-menu");
                 ellipsis.textContent = "...";
