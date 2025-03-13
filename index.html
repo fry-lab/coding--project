@@ -468,29 +468,21 @@
                 selectedDay.appendChild(img);
             }
 
-            function addVideo(src) {
-                const videoDiv = document.createElement("div");
-                videoDiv.style.position = "relative";
-                videoDiv.style.paddingBottom = "56.25%"; // 16:9 aspect ratio
-                videoDiv.style.height = "0";
-                videoDiv.style.overflow = "hidden";
-                videoDiv.style.maxWidth = "100%";
-                videoDiv.style.background = "#000";
-                videoDiv.style.marginTop = "5px"; // Adjust margin
+            function addVideoThumbnail(src) {
+                const videoThumbnail = document.createElement("img");
+                videoThumbnail.src = `https://img.youtube.com/vi/${getYouTubeVideoID(src)}/0.jpg`;
+                videoThumbnail.style.width = "40%";
+                videoThumbnail.style.cursor = "pointer";
+                videoThumbnail.addEventListener("click", function () {
+                    window.open(src, "_blank");
+                });
+                selectedDay.appendChild(videoThumbnail);
+            }
 
-                const iframe = document.createElement("iframe");
-                iframe.src = src;
-                iframe.style.position = "absolute";
-                iframe.style.top = "0";
-                iframe.style.left = "0";
-                iframe.style.width = "100%";
-                iframe.style.height = "100%";
-                iframe.frameBorder = "0";
-                iframe.allow = "accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture";
-                iframe.allowFullscreen = true;
-
-                videoDiv.appendChild(iframe);
-                selectedDay.appendChild(videoDiv);
+            function getYouTubeVideoID(url) {
+                const regExp = /^.*(youtu\.be\/|v\/|u\/\w\/|embed\/|watch\?v=|\&v=)([^#\&\?]*).*/;
+                const match = url.match(regExp);
+                return (match && match[2].length === 11) ? match[2] : null;
             }
 
             if (eventImageUrl.trim() !== "") {
@@ -504,7 +496,7 @@
             }
 
             if (eventVideoUrl.trim() !== "") {
-                addVideo(eventVideoUrl);
+                addVideoThumbnail(eventVideoUrl);
             }
 
             document.getElementById("eventPopup").style.display = "none";
