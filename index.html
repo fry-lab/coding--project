@@ -129,6 +129,12 @@
             border: none;
             font-size: 18px;
         }
+        .close-btn {
+            cursor: pointer;
+            background: none;
+            border: none;
+            font-size: 18px;
+        }
         button {
             padding: 10px 15px;
             border-radius: 5px;
@@ -227,6 +233,7 @@
         <div class="popup-header">
             <h3>Add Event</h3>
             <button id="minimizePopup" class="minimize-btn">&#x2014;</button>
+            <button id="exitPopup" class="close-btn">&times;</button>
         </div>
         <label for="eventCategory">Event Category:</label>
         <select id="eventCategory">
@@ -276,6 +283,11 @@
             });
 
             document.getElementById("closePopup").addEventListener("click", function () {
+                document.getElementById("eventPopup").style.display = "none";
+                clearEventPopup();
+            });
+
+            document.getElementById("exitPopup").addEventListener("click", function () {
                 document.getElementById("eventPopup").style.display = "none";
                 clearEventPopup();
             });
