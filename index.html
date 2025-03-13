@@ -323,6 +323,15 @@
                     document.getElementById("checklist").appendChild(taskItem);
                 }
             });
+
+            document.addEventListener("click", function (event) {
+                const menus = document.querySelectorAll(".menu-options");
+                menus.forEach(menu => {
+                    if (!menu.contains(event.target)) {
+                        menu.style.display = "none";
+                    }
+                });
+            });
         });
 
         let currentYear, currentMonth, selectedDay;
