@@ -426,9 +426,17 @@
                     if (confirmDelete) {
                         selectedDay.removeChild(eventDiv);
                         const images = selectedDay.querySelectorAll("img");
-                        images.forEach(img => selectedDay.removeChild(img));
+                        images.forEach(img => {
+                            if (img.parentElement === selectedDay) {
+                                selectedDay.removeChild(img);
+                            }
+                        });
                         const videos = selectedDay.querySelectorAll("iframe");
-                        videos.forEach(video => selectedDay.removeChild(video));
+                        videos.forEach(video => {
+                            if (video.parentElement === selectedDay) {
+                                selectedDay.removeChild(video);
+                            }
+                        });
                         if (selectedDay.querySelectorAll("div").length === 0) {
                             selectedDay.style.backgroundColor = "#FFE4E1"; // Reset background color
                             selectedDay.style.border = "none"; // Remove border
