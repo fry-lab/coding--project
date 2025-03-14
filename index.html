@@ -426,7 +426,7 @@
                 deleteButton.textContent = "Delete";
                 deleteButton.addEventListener("click", function (event) {
                     event.stopPropagation(); // Prevent the popup from opening
-                    showDeletePopup(selectedDay);
+                    showDeletePopup(eventDiv);
                 });
                 menu.appendChild(editButton);
                 menu.appendChild(deleteButton);
@@ -515,82 +515,55 @@
             popup.classList.toggle("minimized");
         }
 
-        function showDeletePopup(dayCell) {
-            const events = dayCell.querySelectorAll("div");
-            if (events.length <= 1) {
-                const confirmDelete = confirm("Are you sure you want to delete this event?");
-                if (confirmDelete) {
-                    dayCell.removeChild(events[0]);
-                    const images = dayCell.querySelectorAll("img");
-                    images.forEach(img => {
-                        if (img.parentElement === dayCell) {
-                            dayCell.removeChild(img);
-                        }
-                    });
-                    const videos = dayCell.querySelectorAll("iframe");
-                    videos.forEach(video => {
-                        if (video.parentElement === dayCell) {
-                            dayCell.removeChild(video);
-                        }
-                    });
-                    if (dayCell.querySelectorAll("div").length === 0) {
-                        dayCell.style.backgroundColor = "#FFE4E1"; // Reset background color
-                        dayCell.style.border = "none"; // Remove border
+        function showDeletePopup(eventDiv) {
+            const deletePopup = document.createElement("div");
+            deletePopup.style.position = "fixed";
+            deletePopup.style.top = "50%";
+            deletePopup.style.left = "50%";
+            deletePopup.style.transform = "translate(-50%, -50%)";
+            deletePopup.style.background = "white";
+            deletePopup.style.padding = "20px";
+            deletePopup.style.borderRadius = "10px";
+            deletePopup.style.boxShadow = "0px 4px 10px rgba(0, 0, 0, 0.3)";
+            deletePopup.style.zIndex = "1000";
+
+            const deleteMessage = document.createElement("p");
+            deleteMessage.textContent = "Are you sure you want to delete this event?";
+            deletePopup.appendChild(deleteMessage);
+
+            const confirmButton = document.createElement("button");
+            confirmButton.textContent = "Yes";
+            confirmButton.style.marginRight = "10px";
+            confirmButton.addEventListener("click", function () {
+                selectedDay.removeChild(eventDiv);
+                const images = selectedDay.querySelectorAll("img");
+                images.forEach(img => {
+                    if (img.parentElement === selectedDay) {
+                        selectedDay.removeChild(img);
                     }
+                });
+                const videos = selectedDay.querySelectorAll("iframe");
+                videos.forEach(video => {
+                    if (video.parentElement === selectedDay) {
+                        selectedDay.removeChild(video);
+                    }
+                });
+                if (selectedDay.querySelectorAll("div").length === 0) {
+                    selectedDay.style.backgroundColor = "#FFE4E1"; // Reset background color
+                    selectedDay.style.border = "none"; // Remove border
                 }
-            } else {
-                const deletePopup = document.createElement("div");
-                deletePopup.style.position = "fixed";
-                deletePopup.style.top = "50%";
-                deletePopup.style.left = "50%";
-                deletePopup.style.transform = "translate(-50%, -50%)";
-                deletePopup.style.background = "white";
-                deletePopup.style.padding = "20px";
-                deletePopup.style.borderRadius = "10px";
-                deletePopup.style.boxShadow = "0px 4px 10px rgba(0, 0, 0, 0.3)";
-                deletePopup.style.zIndex = "1000";
+                document.body.removeChild(deletePopup);
+            });
+            deletePopup.appendChild(confirmButton);
 
-                const deleteMessage = document.createElement("p");
-                deleteMessage.textContent = "Select the event to delete:";
-                deletePopup.appendChild(deleteMessage);
+            const cancelButton = document.createElement("button");
+            cancelButton.textContent = "No";
+            cancelButton.addEventListener("click", function () {
+                document.body.removeChild(deletePopup);
+            });
+            deletePopup.appendChild(cancelButton);
 
-                events.forEach(eventDiv => {
-                    const eventOption = document.createElement("div");
-                    eventOption.textContent = eventDiv.textContent;
-                    eventOption.style.cursor = "pointer";
-                    eventOption.style.marginBottom = "10px";
-                    eventOption.addEventListener("click", function () {
-                        dayCell.removeChild(eventDiv);
-                        const images = dayCell.querySelectorAll("img");
-                        images.forEach(img => {
-                            if (img.parentElement === dayCell) {
-                                dayCell.removeChild(img);
-                            }
-                        });
-                        const videos = dayCell.querySelectorAll("iframe");
-                        videos.forEach(video => {
-                            if (video.parentElement === dayCell) {
-                                dayCell.removeChild(video);
-                            }
-                        });
-                        if (dayCell.querySelectorAll("div").length === 0) {
-                            dayCell.style.backgroundColor = "#FFE4E1"; // Reset background color
-                            dayCell.style.border = "none"; // Remove border
-                        }
-                        document.body.removeChild(deletePopup);
-                    });
-                    deletePopup.appendChild(eventOption);
-                });
-
-                const cancelButton = document.createElement("button");
-                cancelButton.textContent = "Cancel";
-                cancelButton.addEventListener("click", function () {
-                    document.body.removeChild(deletePopup);
-                });
-                deletePopup.appendChild(cancelButton);
-
-                document.body.appendChild(deletePopup);
-            }
+            document.body.appendChild(deletePopup);
         }
     </script>
 </body>
