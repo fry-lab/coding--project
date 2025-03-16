@@ -43,10 +43,10 @@
         .calendar {
             display: grid;
             grid-template-columns: repeat(7, 1fr);
-            gap: 5px;
+            gap: 10px; /* Increase gap to widen the days */
         }
         .day, .empty {
-            padding: 20px; /* Increase padding to widen the date boxes */
+            padding: 25px; /* Increase padding to widen the date boxes */
             background: #FFE4E1;
             border-radius: 5px;
             text-align: center;
@@ -295,7 +295,7 @@
             <button id="nextMonth">&#9655;</button>
         </div>
         <div class="weekdays">
-            <span>Sun</span><span>Mon</span><span>Tue</span><span>Wed</span><span>Thu</span><span>Fri</span><span>Sat</span>
+            <span>Sun</span><span>Mon</pan><span>Tue</span><span>Wed</span><span>Thu</span><span>Fri</span><span>Sat</span>
         </div>
         <div class="calendar" id="calendar"></div>
     </div>
