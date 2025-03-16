@@ -341,6 +341,7 @@
         });
 
         let currentYear, currentMonth, selectedDay;
+        const events = {}; // Global object to store events
 
         function generateCalendar(year, month) {
             currentYear = year;
@@ -371,6 +372,14 @@
                     }
                 });
                 calendar.appendChild(dayCell);
+
+                // Render events for the current day
+                const dateKey = `${year}-${month}-${day}`;
+                if (events[dateKey]) {
+                    events[dateKey].forEach(event => {
+                        renderEvent(dayCell, event);
+                    });
+                }
             }
         }
 
@@ -390,61 +399,52 @@
             const eventVideoUrl = document.getElementById("eventVideoUrl").value;
 
             if (eventText.trim() !== "") {
-                const eventDiv = document.createElement("div");
-                eventDiv.textContent = `${eventText} (${eventPriority})`;
-                eventDiv.style.fontSize = "12px";
-                eventDiv.style.backgroundColor = "#FF6347";
-                eventDiv.style.padding = "5px"; // Adjust padding
-                eventDiv.style.marginTop = "5px"; // Adjust margin
-                eventDiv.style.width = "100%"; // Widen the event box
+                const event = {
+                    text: eventText,
+                    category: eventCategory,
+                    priority: eventPriority,
+                    notes: eventNotes,
+                    imageUrl: eventImageUrl,
+                    image: eventImage,
+                    videoUrl: eventVideoUrl
+                };
 
-                const checkbox = document.createElement("input");
-                checkbox.type = "checkbox";
-                checkbox.style.marginRight = "5px";
-                checkbox.addEventListener("click", function (event) {
-                    event.stopPropagation(); // Prevent the popup from opening
-                });
-                eventDiv.prepend(checkbox); // Add checkbox to the beginning of the eventDiv
+                const dateKey = `${currentYear}-${currentMonth}-${selectedDay.textContent}`;
+                if (!events[dateKey]) {
+                    events[dateKey] = [];
+                }
+                events[dateKey].push(event);
 
-                const ellipsis = document.createElement("div");
-                ellipsis.classList.add("ellipsis-menu");
-                ellipsis.textContent = "...";
-                ellipsis.addEventListener("click", function (event) {
-                    event.stopPropagation();
-                    const menu = eventDiv.querySelector(".menu-options");
-                    menu.style.display = menu.style.display === "block" ? "none" : "block";
-                });
+                renderEvent(selectedDay, event);
 
-                const menu = document.createElement("div");
-                menu.classList.add("menu-options");
-                const editButton = document.createElement("button");
-                editButton.textContent = "Edit";
-                editButton.addEventListener("click", function () {
-                    // Add edit functionality here
-                });
-                const deleteButton = document.createElement("button");
-                deleteButton.textContent = "Delete";
-                deleteButton.addEventListener("click", function (event) {
-                    event.stopPropagation(); // Prevent the popup from opening
-                    showDeletePopup(eventDiv);
-                });
-                menu.appendChild(editButton);
-                menu.appendChild(deleteButton);
-                eventDiv.appendChild(ellipsis);
-                eventDiv.appendChild(menu);
-                
-                selectedDay.appendChild(eventDiv);
-                selectedDay.style.backgroundColor = "#FFB6C1"; // Change background color of the date box
-                selectedDay.style.border = "2px solid #FF6347"; // Add border to the date box
-
-                document.addEventListener("click", function () {
-                    menu.style.display = "none";
-                });
-
-                // Auto widen the section
-                selectedDay.style.width = "auto";
+                document.getElementById("eventPopup").style.display = "none";
+                clearEventPopup();
             }
+        }
 
+        function renderEvent(dayCell, event) {
+            const eventDiv = document.createElement("div");
+            eventDiv.textContent = `${event.text} (${event.priority})`;
+            eventDiv.style.fontSize = "12px";
+            eventDiv.style.backgroundColor = "#FF6347";
+            eventDiv.style.padding = "5px"; // Adjust padding
+            eventDiv.style.marginTop = "5px"; // Adjust margin
+            eventDiv.style.width = "100%"; // Widen the event box
+
+            const checkbox = document.createElement("input");
+            checkbox.type = "checkbox";
+            checkbox.style.marginRight = "5px";
+            checkbox.addEventListener("click", function (event) {
+                event.stopPropagation(); // Prevent the popup from opening
+            });
+            eventDiv.prepend(checkbox); // Add checkbox to the beginning of the eventDiv
+
+            const ellipsis = document.createElement("div");
+            ellipsis.classList.add("ellipsis-menu");
+            ellipsis.textContent = "...";
+            ellipsis.addEventListener("click", function (event) {
+                event.stopPropagation();
+                const menu = eventDiv.querySelector(".menu-options");
             function addImage(src) {
                 const img = document.createElement("img");
                 img.src = src;
