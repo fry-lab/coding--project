@@ -44,6 +44,7 @@
             display: grid;
             grid-template-columns: repeat(7, 1fr);
             gap: 10px; /* Increase gap to widen the days */
+            width: 100%; /* Ensure the calendar takes full width */
         }
         .day, .empty {
             padding: 25px; /* Increase padding to widen the date boxes */
@@ -54,6 +55,7 @@
             min-height: 80px; /* Increase min-height to widen the date boxes */
             position: relative;
             width: 100%; /* Ensure the cells take full width */
+            box-sizing: border-box; /* Include padding and border in the element's total width and height */
         }
         .ellipsis-menu {
             position: absolute;
