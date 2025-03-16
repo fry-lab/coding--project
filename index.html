@@ -551,7 +551,7 @@
                     });
                     document.body.appendChild(overlay);
                 });
-                selectedDay.appendChild(img);
+                dayCell.appendChild(img);
             }
 
             function addVideoThumbnail(src) {
@@ -563,7 +563,7 @@
                 videoThumbnail.addEventListener("click", function () {
                     window.open(src, "_blank");
                 });
-                selectedDay.appendChild(videoThumbnail);
+                dayCell.appendChild(videoThumbnail);
             }
 
             function getYouTubeVideoID(url) {
@@ -572,22 +572,19 @@
                 return (match && match[2].length === 11) ? match[2] : null;
             }
 
-            if (eventImageUrl.trim() !== "") {
-                addImage(eventImageUrl);
-            } else if (eventImage) {
+            if (event.imageUrl.trim() !== "") {
+                addImage(event.imageUrl);
+            } else if (event.image) {
                 const reader = new FileReader();
                 reader.onload = function (e) {
                     addImage(e.target.result);
                 };
-                reader.readAsDataURL(eventImage);
+                reader.readAsDataURL(event.image);
             }
 
-            if (eventVideoUrl.trim() !== "") {
-                addVideoThumbnail(eventVideoUrl);
+            if (event.videoUrl.trim() !== "") {
+                addVideoThumbnail(event.videoUrl);
             }
-
-            document.getElementById("eventPopup").style.display = "none";
-            clearEventPopup();
         }
 
         function clearEventPopup() {
