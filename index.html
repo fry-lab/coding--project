@@ -34,11 +34,11 @@
             align-items: center;
             margin-bottom: 10px;
         }
-        .weekdays {
+        .weekdays, .calendar {
             display: grid;
             grid-template-columns: repeat(7, 1fr);
-            font-weight: bold;
-            margin-bottom: 5px;
+            gap: 10px; /* Ensure the gap is consistent */
+            width: 100%; /* Ensure the weekdays and calendar take full width */
         }
         .calendar {
             display: grid;
