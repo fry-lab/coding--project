@@ -25,7 +25,7 @@
             width: 90vw;
             max-width: 800px;
             text-align: center;
-            height: 80vh; /* Set a fixed height for the calendar container */
+            height: auto; /* Remove fixed height */
             overflow-y: auto; /* Allow vertical scrolling */
         }
         .calendar-header {
@@ -254,7 +254,7 @@
         @media (min-width: 601px) and (max-width: 1024px) {
             .calendar-container {
                 width: 80vw;
-                height: 70vh;
+                height: auto; /* Remove fixed height */
             }
             .day, .empty {
                 padding: 15px;
@@ -272,7 +272,7 @@
         @media (min-width: 1025px) {
             .calendar-container {
                 width: 60vw;
-                height: 60vh;
+                height: auto; /* Remove fixed height */
             }
             .day, .empty {
                 padding: 20px;
