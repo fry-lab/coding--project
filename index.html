@@ -533,7 +533,7 @@
             const deleteButton = document.createElement("button");
             deleteButton.textContent = "Delete";
             deleteButton.addEventListener("click", function () {
-                showDeletePopup(eventDiv);
+                showDeletePopup(dayCell);
             });
             menuOptions.appendChild(keepButton);
             menuOptions.appendChild(deleteButton);
@@ -608,7 +608,20 @@
             popup.classList.toggle("minimized");
         }
 
-        function showDeletePopup(eventDiv) {
+        function showDeletePopup(dayCell) {
+            const events = dayCell.querySelectorAll("div");
+            if (events.length > 1) {
+                const eventOptions = Array.from(events).map((eventDiv, index) => `${index + 1}. ${eventDiv.textContent}`).join("\n");
+                const eventIndex = prompt(`Which event would you like to delete?\n${eventOptions}`);
+                if (eventIndex && events[eventIndex - 1]) {
+                    deleteEvent(events[eventIndex - 1]);
+                }
+            } else if (events.length === 1) {
+                deleteEvent(events[0]);
+            }
+        }
+
+        function deleteEvent(eventDiv) {
             const deletePopup = document.createElement("div");
             deletePopup.style.position = "fixed";
             deletePopup.style.top = "50%";
@@ -628,22 +641,23 @@
             confirmButton.textContent = "Yes";
             confirmButton.style.marginRight = "10px";
             confirmButton.addEventListener("click", function () {
-                selectedDay.removeChild(eventDiv);
-                const images = selectedDay.querySelectorAll("img");
+                const dayCell = eventDiv.parentElement;
+                dayCell.removeChild(eventDiv);
+                const images = dayCell.querySelectorAll("img");
                 images.forEach(img => {
-                    if (img.parentElement === selectedDay) {
-                        selectedDay.removeChild(img);
+                    if (img.parentElement === dayCell) {
+                        dayCell.removeChild(img);
                     }
                 });
-                const videos = selectedDay.querySelectorAll("iframe");
+                const videos = dayCell.querySelectorAll("iframe");
                 videos.forEach(video => {
-                    if (video.parentElement === selectedDay) {
-                        selectedDay.removeChild(video);
+                    if (video.parentElement === dayCell) {
+                        dayCell.removeChild(video);
                     }
                 });
-                if (selectedDay.querySelectorAll("div").length === 0) {
-                    selectedDay.style.backgroundColor = "#FFE4E1"; // Reset background color
-                    selectedDay.style.border = "none"; // Remove border
+                if (dayCell.querySelectorAll("div").length === 0) {
+                    dayCell.style.backgroundColor = "#FFE4E1"; // Reset background color
+                    dayCell.style.border = "none"; // Remove border
                 }
                 document.body.removeChild(deletePopup);
             });
