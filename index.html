@@ -387,6 +387,11 @@
                     const taskItem = document.createElement("li");
                     const checkbox = document.createElement("input");
                     checkbox.type = "checkbox";
+                    checkbox.addEventListener("change", function () {
+                        if (checkbox.checked) {
+                            taskItem.remove();
+                        }
+                    });
                     taskItem.appendChild(checkbox);
                     taskItem.appendChild(document.createTextNode(taskText));
                     document.getElementById("checklist").appendChild(taskItem);
