@@ -221,6 +221,69 @@
         .checklist-container button:hover {
             background-color: #FF4500;
         }
+
+        @media (max-width: 600px) {
+            body {
+                flex-direction: column;
+                padding: 10px;
+            }
+            .calendar-container {
+                width: 100%;
+                height: auto;
+            }
+            .day, .empty {
+                padding: 10px;
+                min-height: 60px;
+            }
+            .event-popup {
+                width: 90%;
+                min-height: 200px;
+            }
+            .checklist-container {
+                width: 100%;
+                top: auto;
+                bottom: 20px;
+                right: 0;
+                left: 0;
+                margin: 0 auto;
+            }
+        }
+
+        @media (min-width: 601px) and (max-width: 1024px) {
+            .calendar-container {
+                width: 80vw;
+                height: 70vh;
+            }
+            .day, .empty {
+                padding: 15px;
+                min-height: 70px;
+            }
+            .event-popup {
+                width: 70%;
+                min-height: 250px;
+            }
+            .checklist-container {
+                width: 250px;
+            }
+        }
+
+        @media (min-width: 1025px) {
+            .calendar-container {
+                width: 60vw;
+                height: 60vh;
+            }
+            .day, .empty {
+                padding: 20px;
+                min-height: 80px;
+            }
+            .event-popup {
+                width: 50%;
+                min-height: 300px;
+            }
+            .checklist-container {
+                width: 200px;
+            }
+        }
     </style>
 </head>
 <body>
