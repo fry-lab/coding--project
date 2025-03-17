@@ -318,23 +318,6 @@
                 minimizePopup();
             });
 
-            document.getElementById("addTask").addEventListener("click", function () {
-                const taskText = prompt("Enter new task:");
-                if (taskText) {
-                    const taskItem = document.createElement("li");
-                    const checkbox = document.createElement("input");
-                    checkbox.type = "checkbox";
-                    checkbox.addEventListener("change", function () {
-                        if (checkbox.checked) {
-                            taskItem.remove();
-                        }
-                    });
-                    taskItem.appendChild(checkbox);
-                    taskItem.appendChild(document.createTextNode(taskText));
-                    document.getElementById("checklist").appendChild(taskItem);
-                }
-            });
-
             document.addEventListener("click", function (event) {
                 const menus = document.querySelectorAll(".menu-options");
                 menus.forEach(menu => {
@@ -379,7 +362,7 @@
                 calendar.appendChild(dayCell);
 
                 // Render events for the current day
-                const dateKey = `${year}-${month}-${day}`;
+                const dateKey = `${year}-${month + 1}-${day}`; // Fix dateKey to use month + 1
                 if (events[dateKey]) {
                     events[dateKey].forEach(event => {
                         renderEvent(dayCell, event);
@@ -414,7 +397,7 @@
                     videoUrl: eventVideoUrl
                 };
 
-                const dateKey = `${currentYear}-${currentMonth}-${selectedDay.textContent}`;
+                const dateKey = `${currentYear}-${currentMonth + 1}-${selectedDay.textContent}`; // Fix dateKey to use month + 1
                 if (!events[dateKey]) {
                     events[dateKey] = [];
                 }
