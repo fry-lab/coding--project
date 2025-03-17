@@ -8,7 +8,7 @@
     <script defer src="script.js"></script>
     <style>
         body {
-            font-family: Arial, sans-serif;
+            font-family: Montez, sans-serif;
             display: flex;
             justify-content: center;
             align-items: center;
@@ -26,6 +26,7 @@
             height: 100vh; /* Make the calendar full height */
             text-align: center;
             overflow-y: auto; /* Allow vertical scrolling */
+            padding-left: 20px; /* Match left padding to right margin */
         }
         .calendar-header {
             display: flex;
@@ -457,7 +458,6 @@
             const eventImageUrl = document.getElementById("eventImageUrl").value;
             const eventImage = document.getElementById("eventImage").files[0];
             const eventVideoUrl = document.getElementById("eventVideoUrl").value;
-           
 
             if (eventText.trim() !== "") {
                 const event = {
@@ -467,8 +467,6 @@
                     imageUrl: eventImageUrl,
                     image: eventImage,
                     videoUrl: eventVideoUrl,
-                
-                    
                 };
 
                 const dateKey = `${currentYear}-${currentMonth + 1}-${selectedDay.textContent}`; // Fix dateKey to use month + 1
@@ -493,11 +491,22 @@
             eventDiv.style.marginTop = "5px"; // Adjust margin
             eventDiv.style.width = "100%"; // Widen the event box
 
+            const eventTitle = document.createElement("div");
+            eventTitle.textContent = event.text;
+            eventTitle.style.fontWeight = "bold";
+            eventDiv.appendChild(eventTitle);
+
             const checkbox = document.createElement("input");
             checkbox.type = "checkbox";
             checkbox.style.marginRight = "5px";
             checkbox.addEventListener("click", function (event) {
                 event.stopPropagation(); // Prevent the popup from opening
+                const menuOptions = eventDiv.querySelector(".menu-options");
+                if (checkbox.checked) {
+                    menuOptions.style.display = "block";
+                } else {
+                    menuOptions.style.display = "none";
+                }
             });
             eventDiv.prepend(checkbox); // Add checkbox to the beginning of the eventDiv
 
@@ -521,10 +530,12 @@
             keepButton.textContent = "Keep";
             keepButton.addEventListener("click", function () {
                 menuOptions.style.display = "none";
+                checkbox.checked = false; // Uncheck the checkbox
             });
             const deleteButton = document.createElement("button");
             deleteButton.textContent = "Delete";
-            deleteButton.addEventListener("click", function () {
+            deleteButton.addEventListener("click", function (event) {
+                event.stopPropagation(); // Prevent the event popup from reopening
                 showDeletePopup(eventDiv);
             });
             menuOptions.appendChild(keepButton);
@@ -536,7 +547,7 @@
             function addImage(src) {
                 const img = document.createElement("img");
                 img.src = src;
-                img.style.width = "100%";
+                img.style.width = "30%"; // Increase size to 30%
                 img.style.marginTop = "5px"; // Adjust margin
                 img.addEventListener("click", function () {
                     const overlay = document.createElement("div");
@@ -550,7 +561,7 @@
                     });
                     document.body.appendChild(overlay);
                 });
-                dayCell.appendChild(img);
+                eventDiv.appendChild(img); // Attach image to eventDiv
             }
 
             function addVideoThumbnail(src) {
@@ -562,7 +573,7 @@
                 videoThumbnail.addEventListener("click", function () {
                     window.open(src, "_blank");
                 });
-                dayCell.appendChild(videoThumbnail);
+                eventDiv.appendChild(videoThumbnail); // Attach video thumbnail to eventDiv
             }
 
             function getYouTubeVideoID(url) {
@@ -616,30 +627,19 @@
             deletePopup.style.zIndex = "1000";
 
             const deleteMessage = document.createElement("p");
-            deleteMessage.textContent = "Are you sure you want to delete this event?";
+            deleteMessage.textContent = "Are you sure you want to delete the selected items?";
             deletePopup.appendChild(deleteMessage);
 
             const confirmButton = document.createElement("button");
             confirmButton.textContent = "Yes";
             confirmButton.style.marginRight = "10px";
             confirmButton.addEventListener("click", function () {
-                selectedDay.removeChild(eventDiv);
-                const images = selectedDay.querySelectorAll("img");
-                images.forEach(img => {
-                    if (img.parentElement === selectedDay) {
-                        selectedDay.removeChild(img);
-                    }
+                const parentCell = eventDiv.parentElement;
+                const itemsToDelete = parentCell.querySelectorAll("input[type='checkbox']:checked");
+                itemsToDelete.forEach(item => {
+                    const itemDiv = item.closest("div");
+                    parentCell.removeChild(itemDiv);
                 });
-                const videos = selectedDay.querySelectorAll("iframe");
-                videos.forEach(video => {
-                    if (video.parentElement === selectedDay) {
-                        selectedDay.removeChild(video);
-                    }
-                });
-                if (selectedDay.querySelectorAll("div").length === 0) {
-                    selectedDay.style.backgroundColor = "#FFE4E1"; // Reset background color
-                    selectedDay.style.border = "none"; // Remove border
-                }
                 document.body.removeChild(deletePopup);
             });
             deletePopup.appendChild(confirmButton);
