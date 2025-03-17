@@ -266,7 +266,7 @@
             <button id="nextMonth">&#9655;</button>
         </div>
         <div class="weekdays">
-            <span>Sun</span><span>Mon</span><span>Tue</span><span>Wed</span><span>Thu</span><span>Fri</span><span>Sat</span>
+            <span>Sun</span><span>Mon</pan><span>Tue</span><span>Wed</span><span>Thu</span><span>Fri</span><span>Sat</span>
         </div>
         <div class="calendar" id="calendar"></div>
     </div>
@@ -420,21 +420,21 @@
             if (!selectedDay) return;
             const eventText = document.getElementById("eventText").value;
             const eventCategory = document.getElementById("eventCategory").value;
-            const eventPriority = document.getElementById("eventPriority").value;
             const eventNotes = document.getElementById("eventNotes").value;
             const eventImageUrl = document.getElementById("eventImageUrl").value;
             const eventImage = document.getElementById("eventImage").files[0];
             const eventVideoUrl = document.getElementById("eventVideoUrl").value;
+            const eventPriority = document.getElementById("eventPriority").value;
 
             if (eventText.trim() !== "") {
                 const event = {
                     text: eventText,
                     category: eventCategory,
-                    priority: eventPriority,
                     notes: eventNotes,
                     imageUrl: eventImageUrl,
                     image: eventImage,
-                    videoUrl: eventVideoUrl
+                    videoUrl: eventVideoUrl,
+                    priority: eventPriority
                 };
 
                 const dateKey = `${currentYear}-${currentMonth + 1}-${selectedDay.textContent}`; // Fix dateKey to use month + 1
