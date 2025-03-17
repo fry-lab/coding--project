@@ -527,6 +527,9 @@
             if (event.videoUrl.trim() !== "") {
                 addVideoThumbnail(event.videoUrl);
             }
+
+            // Adjust layout to fit the screen
+            adjustLayout();
         }
 
         function clearEventPopup() {
@@ -593,6 +596,19 @@
 
             document.body.appendChild(deletePopup);
         }
+
+        function adjustLayout() {
+            const calendarContainer = document.querySelector('.calendar-container');
+            const calendar = document.querySelector('.calendar');
+            const days = calendar.querySelectorAll('.day, .empty');
+            const containerWidth = calendarContainer.clientWidth;
+            const dayWidth = days[0].clientWidth;
+            const columns = Math.floor(containerWidth / dayWidth);
+            calendar.style.gridTemplateColumns = `repeat(${columns}, 1fr)`;
+        }
+
+        window.addEventListener('resize', adjustLayout);
+        document.addEventListener('DOMContentLoaded', adjustLayout);
     </script>
 </body>
 </html>
