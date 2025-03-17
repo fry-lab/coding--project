@@ -97,7 +97,7 @@
             background: white;
             padding: 20px;
             border-radius: 10px;
-            box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.3);
+            box-shadow: 0px 4px 15px rgba(0, 0, 0, 0.2); /* Increase shadow for a sleeker look */
             z-index: 1000;
             max-width: 400px;
             min-height: 300px;
@@ -112,7 +112,34 @@
         }
         .event-popup h3 {
             margin: 0;
-            font-size: 1rem;
+            font-size: 1.2rem; /* Slightly increase font size */
+            color: #333; /* Darker color for better contrast */
+        }
+        .event-popup label {
+            font-weight: bold; /* Make labels bold */
+            color: #555; /* Darker color for labels */
+        }
+        .event-popup input, .event-popup select, .event-popup textarea {
+            width: 100%;
+            padding: 10px;
+            margin-bottom: 10px;
+            border-radius: 8px;
+            border: 1px solid #ccc;
+            box-shadow: inset 0px 1px 3px rgba(0, 0, 0, 0.1); /* Add inner shadow */
+        }
+        .event-popup button {
+            padding: 10px 15px;
+            border-radius: 5px;
+            border: none;
+            background-color: #FF6347;
+            color: white;
+            font-size: 14px;
+            cursor: pointer;
+            margin-top: 10px;
+            transition: background-color 0.3s ease; /* Smooth transition for hover effect */
+        }
+        .event-popup button:hover {
+            background-color: #FF4500;
         }
         .event-image {
             width: 40%;
