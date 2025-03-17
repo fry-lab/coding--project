@@ -22,10 +22,9 @@
             padding: 20px;
             border-radius: 10px;
             box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.1);
-            width: 90vw;
-            max-width: 800px;
+            width: 100vw; /* Make the calendar full width */
+            height: 100vh; /* Make the calendar full height */
             text-align: center;
-            height: auto; /* Remove fixed height */
             overflow-y: auto; /* Allow vertical scrolling */
         }
         .calendar-header {
@@ -184,9 +183,6 @@
             background: rgba(0, 0, 0, 0.8);
             z-index: 1000;
         }
-      
-        
-
         @media (max-width: 600px) {
             body {
                 flex-direction: column;
@@ -194,7 +190,7 @@
             }
             .calendar-container {
                 width: 100%;
-                height: auto;
+                height: 100vh; /* Make the calendar full height */
             }
             .day, .empty {
                 padding: 10px;
@@ -204,14 +200,11 @@
                 width: 90%;
                 min-height: 200px;
             }
-          
-            }
         }
-
         @media (min-width: 601px) and (max-width: 1024px) {
             .calendar-container {
-                width: 80vw;
-                height: auto; /* Remove fixed height */
+                width: 100vw; /* Make the calendar full width */
+                height: 100vh; /* Make the calendar full height */
             }
             .day, .empty {
                 padding: 15px;
@@ -220,12 +213,12 @@
             .event-popup {
                 width: 70%;
                 min-height: 250px;
-       
-
+            }
+        }
         @media (min-width: 1025px) {
             .calendar-container {
-                width: 60vw;
-                height: auto; /* Remove fixed height */
+                width: 100vw; /* Make the calendar full width */
+                height: 100vh; /* Make the calendar full height */
             }
             .day, .empty {
                 padding: 20px;
@@ -234,8 +227,6 @@
             .event-popup {
                 width: 50%;
                 min-height: 300px;
-            }
-            
             }
         }
     </style>
