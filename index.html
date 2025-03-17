@@ -229,6 +229,32 @@
                 min-height: 300px;
             }
         }
+        .alarm-popup {
+            display: none;
+            position: fixed;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            background: white;
+            padding: 20px;
+            border-radius: 10px;
+            box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.3);
+            z-index: 1000;
+            max-width: 400px;
+            min-height: 200px;
+            transition: all 0.3s ease;
+        }
+        .alarm-popup h3 {
+            margin: 0;
+            font-size: 1rem;
+        }
+        .alarm-popup input {
+            width: 100%;
+            padding: 10px;
+            margin-bottom: 10px;
+            border-radius: 8px;
+            border: 1px solid #ccc;
+        }
     </style>
 </head>
 <body>
@@ -286,8 +312,16 @@
         <button id="closePopup">Close</button>
     </div>
 
-   
-    
+    <div class="alarm-popup" id="alarmPopup">
+        <div class="popup-header">
+            <h3>Set Alarm</h3>
+            <button id="closeAlarmPopup" class="close-btn">&times;</button>
+        </div>
+        <label for="alarmTime">Alarm Time:</label>
+        <input type="time" id="alarmTime">
+        <button id="setAlarm">Set Alarm</button>
+    </div>
+
     <script>
         document.addEventListener("DOMContentLoaded", function () {
             const today = new Date();
@@ -326,10 +360,21 @@
                     }
                 });
             });
+
+            document.getElementById("setAlarm").addEventListener("click", function () {
+                setAlarm();
+            });
+
+            document.getElementById("closeAlarmPopup").addEventListener("click", function () {
+                document.getElementById("alarmPopup").style.display = "none";
+            });
+
+            setInterval(checkAlarm, 1000); // Check alarm every second
         });
 
         let currentYear, currentMonth, selectedDay;
         const events = {}; // Global object to store events
+        let alarmTime = null;
 
         function generateCalendar(year, month) {
             currentYear = year;
@@ -588,6 +633,29 @@
             const dayWidth = days[0].clientWidth;
             const columns = Math.floor(containerWidth / dayWidth);
             calendar.style.gridTemplateColumns = `repeat(${columns}, 1fr)`;
+        }
+
+        function setAlarm() {
+            const alarmInput = document.getElementById("alarmTime").value;
+            if (alarmInput) {
+                alarmTime = alarmInput;
+                alert(`Alarm set for ${alarmTime}`);
+                document.getElementById("alarmPopup").style.display = "none";
+            }
+        }
+
+        function checkAlarm() {
+            if (!alarmTime) return;
+
+            const currentTime = new Date();
+            const currentHours = String(currentTime.getHours()).padStart(2, '0');
+            const currentMinutes = String(currentTime.getMinutes()).padStart(2, '0');
+            const formattedTime = `${currentHours}:${currentMinutes}`;
+
+            if (formattedTime === alarmTime) {
+                alert("Alarm ringing!");
+                alarmTime = null; // Reset alarm
+            }
         }
 
         window.addEventListener('resize', adjustLayout);
