@@ -467,7 +467,8 @@
                     imageUrl: eventImageUrl,
                     image: eventImage,
                     videoUrl: eventVideoUrl,
-                    priority: eventPriority
+                
+                    
                 };
 
                 const dateKey = `${currentYear}-${currentMonth + 1}-${selectedDay.textContent}`; // Fix dateKey to use month + 1
@@ -485,7 +486,7 @@
 
         function renderEvent(dayCell, event) {
             const eventDiv = document.createElement("div");
-            eventDiv.textContent = `${event.text} (${event.priority})`;
+        
             eventDiv.style.fontSize = "12px";
             eventDiv.style.backgroundColor = "#FF6347";
             eventDiv.style.padding = "5px"; // Adjust padding
@@ -594,7 +595,7 @@
             document.getElementById("eventImageUrl").value = "";
             document.getElementById("eventImage").value = "";
             document.getElementById("eventVideoUrl").value = "";
-            document.getElementById("eventPriority").value = "Medium"; // Reset priority to default
+         
         }
 
         function minimizePopup() {
