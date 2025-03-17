@@ -204,13 +204,7 @@
                 width: 90%;
                 min-height: 200px;
             }
-            .checklist-container {
-                width: 100%;
-                top: auto;
-                bottom: 20px;
-                right: 0;
-                left: 0;
-                margin: 0 auto;
+          
             }
         }
 
@@ -226,11 +220,7 @@
             .event-popup {
                 width: 70%;
                 min-height: 250px;
-            }
-            .checklist-container {
-                width: 250px;
-            }
-        }
+       
 
         @media (min-width: 1025px) {
             .calendar-container {
@@ -245,8 +235,7 @@
                 width: 50%;
                 min-height: 300px;
             }
-            .checklist-container {
-                width: 200px;
+            
             }
         }
     </style>
@@ -306,16 +295,8 @@
         <button id="closePopup">Close</button>
     </div>
 
-    <div class="checklist-container">
-        <h3>Weekly Checklist</h3>
-        <ul id="checklist">
-            <li><input type="checkbox"> </li>
-            <li><input type="checkbox"> </li>
-            <li><input type="checkbox"> </li>
-        </ul>
-        <button id="addTask">Add Task</button>
-    </div>
-
+   
+    
     <script>
         document.addEventListener("DOMContentLoaded", function () {
             const today = new Date();
