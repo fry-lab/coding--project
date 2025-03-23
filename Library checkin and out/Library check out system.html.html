@@ -59,3 +59,12 @@ class Library:
         if student and book:
             return student.return_book(book)
         return False
+
+# Example usage:
+# library = Library()
+# book1 = Book("Harry Potter", "J.K. Rowling", "123456789", 5)
+# student1 = Student(1, "Alice")
+# library.add_book(book1)
+# library.register_student(student1)
+# library.check_out_book(1, "123456789")
+# library.check_in_book(1, "123456789")
